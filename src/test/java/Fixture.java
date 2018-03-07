@@ -1,7 +1,7 @@
-import email.InboxPage;
-import email.PutsPage;
 import facebook.LoginPage;
 import facebook.SecurityCodePage;
+import mailbox.InboxPage;
+import mailbox.PutsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -32,9 +32,6 @@ public class Fixture {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("-incognito");
         options.addArguments("--disable-popup-blocking");
-
-        //DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-        //capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();

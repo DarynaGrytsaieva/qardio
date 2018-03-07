@@ -59,10 +59,11 @@ public class RegistrationTest extends Fixture {
         //then
         if (securityCodePage.isLoginButtonPresent()) {
             securityCodePage.pressLogin();
-            System.out.println("No foto needed");
+            System.out.println("No photo needed");
         } else {
 
-            securityCodePage.uploadPicture(getClass().getResource("." + File.pathSeparator + "files" + File.pathSeparator + "avatar.jpg").getFile());
+            securityCodePage.uploadPicture(getClass().getResource("." + File.separator + "files" + File.separator + "avatar.jpg").getFile());
+            securityCodePage.waitForElementToDisplay(By.name("submit[Continue]"));
             securityCodePage.pressContinueButton2();
 
             assertTrue(securityCodePage.isPictureAcceptedForReview());
@@ -414,7 +415,7 @@ public class RegistrationTest extends Fixture {
     @DataProvider
     public Object[][] getInvalidEmailData() {
         return new Object[][]{
-                {"John", "Smith", "email", "A3xK67MnG90"},
+                {"John", "Smith", "mailbox", "A3xK67MnG90"},
                 {"John", "Smith", "email@gmail", "A3xK67MnG90"},
                 {"John", "Smith", "@gmail.com", "A3xK67MnG90"}};
     }
