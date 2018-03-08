@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.time.LocalDate;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 public class RegistrationTest extends Fixture {
@@ -42,12 +43,13 @@ public class RegistrationTest extends Fixture {
         loginPage.chooseFemale();
         actLikeHuman(2000);
         loginPage.pressCreateAccount();
+        assertFalse(loginPage.isRegistrationBlocked());
         securityCodePage.waitForElementToDisplay(By.name("code"));
 
         //and
         securityCodePage.openNewTab();
         inboxPage.openMailBox();
-        assertTrue(inboxPage.isEmailReceived());
+        assertTrue(inboxPage.isEmaileliveredInThreeMinutes());
         String code = inboxPage.getConfirmationCode();
 
         //and
@@ -57,18 +59,17 @@ public class RegistrationTest extends Fixture {
 
 
         //then
-        if (securityCodePage.isLoginButtonPresent()) {
-            securityCodePage.pressLogin();
-            System.out.println("No photo needed");
-        } else {
-
+        if (securityCodePage.getCurrentPageURL().contains("checkpoint/block/")) {
             securityCodePage.uploadPicture(getClass().getResource("." + File.separator + "files" + File.separator + "avatar.jpg").getFile());
-            securityCodePage.waitForElementToDisplay(By.name("submit[Continue]"));
+            assertTrue(securityCodePage.isPictureUploaded());
             securityCodePage.pressContinueButton2();
 
             assertTrue(securityCodePage.isPictureAcceptedForReview());
             securityCodePage.pressOK();
         }
+        securityCodePage.isLoginButtonPresent();
+        securityCodePage.pressLogin();
+
 
     }
 

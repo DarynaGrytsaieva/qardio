@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class InboxPage {
@@ -34,8 +35,17 @@ public class InboxPage {
         return code;
     }
 
-    public boolean isEmailReceived() {
-        return isElementPresent(message);
+    public boolean isEmaileliveredInThreeMinutes() {
+        try {
+            Wait<WebDriver> wait = new FluentWait<>(driver)
+                    .withTimeout(3, MINUTES)
+                    .pollingEvery(2, SECONDS)
+                    .ignoring(NoSuchElementException.class);
+
+            return wait.until(driver -> driver.findElement(message).isDisplayed());
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     private WebElement getElement(By selector) {

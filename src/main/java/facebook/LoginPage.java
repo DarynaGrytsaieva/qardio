@@ -151,6 +151,11 @@ public class LoginPage extends Page {
         return getElement(error).getText().equals(errorText);
     }
 
+    public boolean isRegistrationBlocked() {
+        return isElementPresent(error) && getElement(error).getText().equals("There was an error with your registration. Please try registering again.");
+
+    }
+
     public boolean isRegistrationForbidden() {
         return isElementPresent(By.xpath("//div[text()='Sorry, we are not able to process your registration.']"));
     }

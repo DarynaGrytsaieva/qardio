@@ -50,6 +50,10 @@ public class SecurityCodePage extends Page {
         return isElementPresent(loginButton);
     }
 
+    public boolean isPictureUploaded() {
+        return getElement(submitChoosePictureButton).isDisplayed();
+    }
+
     public void pressCancelButton() {
         getElement(cancelButton).click();
     }
